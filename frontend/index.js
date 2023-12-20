@@ -37,6 +37,10 @@ function moduleProject2() {
       row.appendChild(square)
       square.addEventListener('click', () => {
         // 👉 TASK 2 - Use a click handler to target a square 👈
+        if(!square.classList.contains('targeted')){
+           document.querySelector('.targeted').classList.remove('targeted')
+           square.classList.add('targeted')
+        }
       })
     }
   }
@@ -65,10 +69,89 @@ function moduleProject2() {
 
   document.addEventListener('keydown', evt => {
     // 👉 TASK 3 - Use the arrow keys to highlight a new square 👈
+    
+
+    const currentSquare = document.querySelector('.targeted');
+    const currentRow = currentSquare.parentElement;
+    const currentIndex =  Array.from(currentRow.children).indexOf(currentSquare);
+    const mosquito = currentSquare.firstChild;
+    let liveMosquitoes = document.querySelectorAll('.mosquito[data-status="alive"]');
+    
+    
+   
+    
+
+      switch (event.key) {
+        case keys.up:
+          if (currentRow.previousElementSibling) {
+            currentSquare.classList.remove('targeted')
+            currentRow.previousElementSibling.children[currentIndex].classList.add('targeted');
+          }
+          break;
+        case keys.down:
+          if (currentRow.nextElementSibling) {
+            
+            currentSquare.classList.remove('targeted')
+             currentRow.nextElementSibling.children[currentIndex].classList.add('targeted');
+          }
+          break;
+        case keys.left:
+          if(currentSquare.previousElementSibling){
+            currentSquare.classList.remove('targeted')
+            currentSquare.previousElementSibling.classList.add('targeted')
+         }
+          break;
+        case keys.right:
+          if(currentSquare.previousElementSibling){
+            currentSquare.classList.remove('targeted')
+            currentSquare.nextElementSibling.classList.add('targeted')
+         }
+          break;
+        case keys.space:
+          if (mosquito && mosquito.dataset.status === 'alive') {
+          mosquito.dataset.status = 'dead';
+          currentSquare.style.backgroundColor = 'red';
+        }
+          break;
+        default:
+          return; // Do nothing if it's not an arrow key
+      }
+
+     
+
 
     // 👉 TASK 4 - Use the space bar to exterminate a mosquito 👈
+   
 
     // 👉 TASK 5 - End the game 👈
+if (!liveMosquitoes.length) {
+          
+    
+  // Update info text
+  const elapsedTime = Date.now() - startTime;
+  const seconds = Math.floor(elapsedTime / 1000);
+  const infoText = document.querySelector('.info');
+  infoText.textContent = `Extermination completed in ${seconds} seconds!`;
+
+      // Display restart button
+      let restartButton = document.getElementById('restartButton');
+     if (!restartButton) {
+    restartButton = document.createElement('button');
+    restartButton.textContent = 'Restart';
+    restartButton.id = 'restartButton'; // Assign an id for easy identification
+    restartButton.addEventListener('click', () => {
+      location.reload();
+    });
+    const existingRestartButton = document.getElementById('restartButton');
+    if (existingRestartButton) {
+      existingRestartButton.replaceWith(restartButton);
+    } else {
+      document.querySelector('h2').insertAdjacentElement('beforeend', restartButton);
+    }
+      
+          }
+         
+        }      
   })
   // 👆 WORK WORK ABOVE THIS LINE 👆
 }
