@@ -81,41 +81,32 @@ function moduleProject2() {
    
     
 
-      switch (event.key) {
-        case keys.up:
-          if (currentRow.previousElementSibling) {
-            currentSquare.classList.remove('targeted')
-            currentRow.previousElementSibling.children[currentIndex].classList.add('targeted');
-          }
-          break;
-        case keys.down:
-          if (currentRow.nextElementSibling) {
-            
-            currentSquare.classList.remove('targeted')
-             currentRow.nextElementSibling.children[currentIndex].classList.add('targeted');
-          }
-          break;
-        case keys.left:
-          if(currentSquare.previousElementSibling){
-            currentSquare.classList.remove('targeted')
-            currentSquare.previousElementSibling.classList.add('targeted')
-         }
-          break;
-        case keys.right:
-          if(currentSquare.previousElementSibling){
-            currentSquare.classList.remove('targeted')
-            currentSquare.nextElementSibling.classList.add('targeted')
-         }
-          break;
-        case keys.space:
-          if (mosquito && mosquito.dataset.status === 'alive') {
-          mosquito.dataset.status = 'dead';
-          currentSquare.style.backgroundColor = 'red';
-        }
-          break;
-        default:
-          return; // Do nothing if it's not an arrow key
+    if (event.key === keys.up) {
+      if (currentRow.previousElementSibling) {
+        currentSquare.classList.remove('targeted');
+        currentRow.previousElementSibling.children[currentIndex].classList.add('targeted');
       }
+    } else if (event.key === keys.down) {
+      if (currentRow.nextElementSibling) {
+        currentSquare.classList.remove('targeted');
+        currentRow.nextElementSibling.children[currentIndex].classList.add('targeted');
+      }
+    } else if (event.key === keys.left) {
+      if (currentSquare.previousElementSibling) {
+        currentSquare.classList.remove('targeted');
+        currentSquare.previousElementSibling.classList.add('targeted');
+      }
+    } else if (event.key === keys.right) {
+      if (currentSquare.nextElementSibling) {
+        currentSquare.classList.remove('targeted');
+        currentSquare.nextElementSibling.classList.add('targeted');
+      }
+    } else if (event.key === keys.space) {
+      if (mosquito && mosquito.dataset.status === 'alive') {
+        mosquito.dataset.status = 'dead';
+        currentSquare.style.backgroundColor = 'red';
+      }
+    }
 
      
 
@@ -124,35 +115,35 @@ function moduleProject2() {
    
 
     // 👉 TASK 5 - End the game 👈
-if (!liveMosquitoes.length) {
+
           
     
-  // Update info text
-  const elapsedTime = Date.now() - startTime;
-  const seconds = Math.floor(elapsedTime / 1000);
-  const infoText = document.querySelector('.info');
-  infoText.textContent = `Extermination completed in ${seconds} seconds!`;
+  if (!liveMosquitoes.length) {
+    // Update info text
+    let elapsedTime = getTimeElapsed();
+    const seconds = Math.floor(elapsedTime / 1000);
+    const infoText = document.querySelector('p.info');
+    infoText.textContent = `Extermination completed in ${seconds} seconds!`;
 
-      // Display restart button
-      let restartButton = document.getElementById('restartButton');
-     if (!restartButton) {
-    restartButton = document.createElement('button');
+    // Remove existing restart button
+    const existingRestartButton = document.getElementById('restartButton');
+    if (existingRestartButton) {
+        existingRestartButton.remove();
+    }
+
+    // Display restart button
+    let restartButton = document.createElement('button');
     restartButton.textContent = 'Restart';
     restartButton.id = 'restartButton'; // Assign an id for easy identification
     restartButton.addEventListener('click', () => {
-      location.reload();
+        location.reload();
     });
-    const existingRestartButton = document.getElementById('restartButton');
-    if (existingRestartButton) {
-      existingRestartButton.replaceWith(restartButton);
-    } else {
-      document.querySelector('h2').insertAdjacentElement('beforeend', restartButton);
-    }
-      
-          }
+
+    document.querySelector('h2').insertAdjacentElement('beforeend', restartButton);
+}
          
         }      
-  })
+  )
   // 👆 WORK WORK ABOVE THIS LINE 👆
 }
 
